@@ -44,13 +44,17 @@ rm -f "$ARCHIVE_PATH"
     -x "./.coverage" -x "./.env" -x "./backdate_commits.py"
 )
 
-unzip -l "$ARCHIVE_PATH" | grep -Fq ".git/HEAD" || { echo "error: .git/HEAD missing" >&2; exit 1; }
-unzip -l "$ARCHIVE_PATH" | grep -Fq ".git/objects/pack/" || { echo "error: packed objects missing" >&2; exit 1; }
+LIST_FILE="$(mktemp)"
+unzip -l "$ARCHIVE_PATH" >"$LIST_FILE"
+grep -Fq ".git/HEAD" "$LIST_FILE" || { echo "error: .git/HEAD missing" >&2; exit 1; }
+grep -Fq ".git/objects/pack/" "$LIST_FILE" || { echo "error: packed objects missing" >&2; exit 1; }
+rm -f "$LIST_FILE"
 
 VERIFY_DIR="$(mktemp -d)"
 unzip -q "$ARCHIVE_PATH" -d "$VERIFY_DIR"
 VERIFY_COMMITS="$(git -C "$VERIFY_DIR" rev-list --count HEAD)"
-FIRST="$(git -C "$VERIFY_DIR" log --reverse -1 --format='%ad' --date=short)"
+ROOT="$(git -C "$VERIFY_DIR" rev-list --max-parents=0 HEAD)"
+FIRST="$(git -C "$VERIFY_DIR" log -1 --format='%ad' --date=short "$ROOT")"
 LAST="$(git -C "$VERIFY_DIR" log -1 --format='%ad' --date=short)"
 rm -rf "$VERIFY_DIR"
 
