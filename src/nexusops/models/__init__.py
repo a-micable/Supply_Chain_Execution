@@ -17,6 +17,7 @@ from nexusops.models.warehouse import (
     WarehouseTask,
     WarehouseTransfer,
 )
+from nexusops.models.auth import Role, User, UserRole
 
 __all__ = [
     "AuditEntry",
@@ -40,4 +41,7 @@ __all__ = [
     "WarehouseLocation",
     "WarehouseTask",
     "WarehouseTransfer",
+    "Role",
+    "User",
+    "UserRole",
 ]

@@ -13,7 +13,7 @@ from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 
 from nexusops.db.base import Base
-from nexusops.models import audit, events, fulfillment, inventory, procurement, transportation, warehouse  # noqa: F401
+from nexusops.models import audit, events, fulfillment, inventory, procurement, transportation, warehouse, auth  # noqa: F401
 from nexusops.models.inventory import InventoryBalance, Sku
 from nexusops.models.warehouse import Warehouse
 

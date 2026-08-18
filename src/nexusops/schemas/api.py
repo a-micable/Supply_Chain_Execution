@@ -123,3 +123,72 @@ class HealthResponse(BaseModel):
     status: str
     version: str
     environment: str
+
+
+class TokenRequest(BaseModel):
+    username: str
+    password: str
+
+
+class TokenResponse(BaseModel):
+    access_token: str
+    token_type: str = "bearer"
+    user_id: str
+    username: str
+    roles: list[str]
+
+
+class MeResponse(BaseModel):
+    user_id: str
+    username: str
+    roles: list[str]
+
+
+class WarehouseResponse(BaseModel):
+    id: uuid.UUID
+    warehouse_code: str
+    name: str
+
+
+class InventoryBalanceRow(BaseModel):
+    warehouse_id: uuid.UUID
+    sku_id: uuid.UUID
+    sku_code: str
+    description: str
+    uom: str
+    on_hand: int
+    reserved: int
+    allocated: int
+    available: int
+
+
+class InventoryAdjustRequest(BaseModel):
+    on_hand: int
+    reason: str = "manual adjustment"
+
+
+class StockMovementRow(BaseModel):
+    event_timestamp: datetime
+    action: str
+    before_on_hand: int | None = None
+    after_on_hand: int | None = None
+    is_manual_override: bool = False
+
+
+class DashboardKpisResponse(BaseModel):
+    total_on_hand: int
+    active_orders: int
+    low_stock_count: int
+    recent_activity: list[dict[str, Any]]
+
+
+class PurchaseOrderResponse(BaseModel):
+    id: uuid.UUID
+    po_number: str
+    supplier_id: uuid.UUID
+    warehouse_id: uuid.UUID
+    status: str
+    order_date: datetime
+    expected_delivery: datetime | None = None
+    total_amount: Decimal
+    currency: str

@@ -10,7 +10,7 @@ from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from nexusops.config.settings import get_settings
 from nexusops.db.base import Base
-from nexusops.models import audit, events, fulfillment, inventory, procurement, transportation, warehouse  # noqa: F401
+from nexusops.models import audit, events, fulfillment, inventory, procurement, transportation, warehouse, auth  # noqa: F401
 
 config = context.config
 if config.config_file_name is not None:

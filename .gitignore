@@ -33,3 +33,5 @@ htmlcov/
 *.log
 .DS_Store
 alembic/versions/*.pyc
+node_modules/
+frontend/dist/
